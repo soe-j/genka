@@ -2,17 +2,25 @@
 
 set -e
 
+load_resources() {
+
+  mkdir $RESOURCES_PATH/$1
+  RESOURCES=$(http get localhost:3000/$1)
+  COUNT=$(echo $RESOURCES | jq .[].name | wc -l)
+
+  for i in `seq 0 $(expr $COUNT - 1)`
+  do
+    ID=$(echo $RESOURCES | jq -r .[$i].id)
+    NAME=$(echo $RESOURCES | jq -r .[$i].name)
+
+    echo $ID > $RESOURCES_PATH/$1/$NAME
+  done
+
+}
+
 RESOURCES_PATH=$(dirname $0)/../resources
 rm -rf  $RESOURCES_PATH/*
 
-mkdir $RESOURCES_PATH/projects
-PROJECTS=$(http get localhost:3000/projects)
-COUNT=$(echo $PROJECTS | jq .[].name | wc -l)
-
-for i in `seq 0 $(expr $COUNT - 1)`
-do
-  ID=$(echo $PROJECTS | jq -r .[$i].id)
-  NAME=$(echo $PROJECTS | jq -r .[$i].name)
-
-  echo $ID > $RESOURCES_PATH/projects/$NAME
-done
+load_resources projects
+load_resources stages
+load_resources members
