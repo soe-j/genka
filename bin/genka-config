@@ -7,9 +7,10 @@ api_url() {
 }
 
 my_name() {
-  echo "Setting Your Name, $1!"
-  echo $1 > $CONFIG_PATH/myname.id
-  http post localhost:3000/members name=$1 | jq .
+  MEMBER=$(http post localhost:3000/members name=$1)
+  NAME=$(echo $MEMBER | jq -r .name)
+  echo "Hello, $NAME!"
+  echo $MEMBER | jq -r .id > $CONFIG_PATH/myname.id
 }
 
 list() {
