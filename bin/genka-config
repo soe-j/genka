@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+CONFIG_PATH=$(dirname $0)/../config
+
+api_url() {
+  echo $1 > $CONFIG_PATH/api.url
+}
+
+my_name() {
+  echo "Setting Your Name, $1!"
+  echo $1 > $CONFIG_PATH/myname.id
+  http post localhost:3000/members name=$1 | jq .
+}
+
+list() {
+  CONFIG_LIST=$(ls $CONFIG_PATH)
+  for key in $CONFIG_LIST
+  do
+    value=$(cat $CONFIG_PATH/$key)
+    echo "$key=$value"
+  done
+}
+
+case $1 in
+  api_url )
+    api_url $2
+    ;;
+  my_name )
+    my_name $2
+    ;;
+  list )
+    list
+    ;;
+  * )
+    echo "genka config [api_url|my_name|list] (value)"
+    exit 1
+    ;;
+esac
