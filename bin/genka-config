@@ -3,6 +3,7 @@
 CONFIG_PATH=$(dirname $0)/../config
 
 api_url() {
+  echo "api.url=$1"
   echo $1 > $CONFIG_PATH/api.url
 }
 
