@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+RESOURCES_PATH=$(dirname $0)/../resources
+rm -rf  $RESOURCES_PATH/*
+
+mkdir $RESOURCES_PATH/projects
+PROJECTS=$(http get localhost:3000/projects)
+COUNT=$(echo $PROJECTS | jq .[].name | wc -l)
+
+for i in `seq 0 $(expr $COUNT - 1)`
+do
+  ID=$(echo $PROJECTS | jq -r .[$i].id)
+  NAME=$(echo $PROJECTS | jq -r .[$i].name)
+
+  echo $ID > $RESOURCES_PATH/projects/$NAME
+done
