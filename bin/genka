@@ -1,10 +1,23 @@
 #!/usr/bin/env bash
 
-RESOURCES_PATH=$(dirname $0)/../resources
-CONFIG_PATH=$(dirname $0)/../config
+LIBEXEC_PATH=$GENKA_ROOT/libexec
+CONFIG_PATH=$GENKA_ROOT/config
+RESOURCES_PATH=$GENKA_ROOT/resources
+API_URL=$( cat $GENKA_ROOT/config/api.url )
 
-PROJECT_ID=$(cat $RESOURCES_PATH/projects/$1)
-STAGES_ID=$(cat $RESOURCES_PATH/stages/$2)
-MEMBER_ID=$(cat $CONFIG_PATH/myname.id)
+record(){
+  PROJECT_ID=$(cat $RESOURCES_PATH/projects/$1)
+  STAGES_ID=$(cat $RESOURCES_PATH/stages/$2)
+  MEMBER_ID=$(cat $CONFIG_PATH/myname.id)
 
-http post localhost:3000/periods project_id=$PROJECT_ID stage_id=$STAGES_ID member_id=$MEMBER_ID | jq .
+  http post $API_URL/periods project_id=$PROJECT_ID stage_id=$STAGES_ID member_id=$MEMBER_ID | jq .
+}
+
+case $1 in
+  config | create | init | load )
+    . $LIBEXEC_PATH/genka-$1 $2 $3
+    ;;
+  * )
+    record $1 $2
+    ;;
+esac
