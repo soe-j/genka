@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+set -e
+
+if [ -z "$GENKA_ROOT" ]
+then
+  GENKA_ROOT=~/.genka
+fi
+
 LIBEXEC_PATH=$GENKA_ROOT/libexec
 CONFIG_PATH=$GENKA_ROOT/config
 RESOURCES_PATH=$GENKA_ROOT/resources
