@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -e
+
+echo "source $GENKA_ROOT/completions/genka.bash"
