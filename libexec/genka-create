@@ -3,7 +3,7 @@
 set -e
 
 create () {
-  http post localhost:3000/$1s/ name=$2
+  http post $API_URL/$1s/ name=$2
 }
 
 case $1 in
@@ -12,12 +12,12 @@ case $1 in
     then
       create $1 $2
     else
-      echo "genka/create/[project|stage|member]/name"
+      echo "genka create [project|stage|member] name"
       exit 2
     fi
     ;;
   * )
-    echo "genka/create/[project|stage|member]/name"
+    echo "genka create [project|stage|member] name"
     exit 1
     ;;
 esac
