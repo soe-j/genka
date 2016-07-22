@@ -6,13 +6,17 @@ setting_complete () {
   case $3 in
     genka )
       PROJECTS=$(ls $GENKA_ROOT/resources/projects)
-      COMPREPLY=( config create init load $PROJECTS )
+      COMPREPLY=( `compgen -W "config create init load $PROJECTS" $2` )
       ;;
     config )
-      COMPREPLY=( api_url my_name list )
+      COMPREPLY=( `compgen -W "api_url my_name list" $2` )
       ;;
     create )
-      COMPREPLY=( project stage member )
+      COMPREPLY=( `compgen -W "project stage member" $2` )
+      ;;
+    * )
+      STAGES=$(ls $GENKA_ROOT/resources/stages)
+      COMPREPLY=( $STAGES )
       ;;
   esac
 }
