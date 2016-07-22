@@ -25,6 +25,12 @@ case $1 in
     . $LIBEXEC_PATH/genka-$1 $2 $3
     ;;
   * )
-    record $1 $2
+    if [ $# == 2 ]
+    then
+      record $1 $2
+    else
+      echo "usage: genka [project] [stage]"
+      exit 1
+    fi
     ;;
 esac
