@@ -2,4 +2,5 @@
 
 set -e
 
+echo "export GENKA_ROOT=$GENKA_ROOT"
 echo "source $GENKA_ROOT/completions/genka.bash"

@@ -2,16 +2,6 @@
 
 set -e
 
-if [ -z "$GENKA_ROOT" ]
-then
-  GENKA_ROOT=~/.genka
-fi
-
-LIBEXEC_PATH=$GENKA_ROOT/libexec
-CONFIG_PATH=$GENKA_ROOT/config
-RESOURCES_PATH=$GENKA_ROOT/resources
-API_URL=$( cat $GENKA_ROOT/config/api.url )
-
 record(){
   PROJECT_ID=$(cat $RESOURCES_PATH/projects/$1)
   STAGES_ID=$(cat $RESOURCES_PATH/stages/$2)
@@ -21,7 +11,15 @@ record(){
 }
 
 case $1 in
+  init )
+    GENKA_ROOT=$(dirname $0)/..
+    . $GENKA_ROOT/libexec/genka-init
+    ;;
   config | create | init | load )
+    LIBEXEC_PATH=$GENKA_ROOT/libexec
+    CONFIG_PATH=$GENKA_ROOT/config
+    RESOURCES_PATH=$GENKA_ROOT/resources
+    API_URL=$( cat $GENKA_ROOT/config/api.url )
     . $LIBEXEC_PATH/genka-$1 $2 $3
     ;;
   * )
