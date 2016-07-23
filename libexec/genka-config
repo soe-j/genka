@@ -27,10 +27,26 @@ list() {
 
 case $1 in
   api_url )
-    api_url $2
+    set +u
+    if [ -n "$2" ]
+    then
+      set -u
+      api_url $2
+    else
+      set -u
+      cat $CONFIG_PATH/api.url
+    fi
     ;;
   my_name )
-    my_name $2
+    set +u
+    if [ -n "$2" ]
+    then
+      set -u
+      my_name $2
+    else
+      set -u
+      cat $CONFIG_PATH/myname.id
+    fi
     ;;
   list )
     list
