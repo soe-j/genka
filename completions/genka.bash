@@ -2,6 +2,8 @@
 
 COMP_DIR=$GENKA_ROOT/completions
 
+PROJECTS=$(ls $GENKA_ROOT/resources/projects)
+
 setting_complete () {
   case $3 in
     genka )
@@ -15,8 +17,11 @@ setting_complete () {
       COMPREPLY=( `compgen -W "project stage member" $2` )
       ;;
     * )
-      STAGES=$(ls $GENKA_ROOT/resources/stages)
-      COMPREPLY=( $STAGES )
+      if [ -n "$(echo $PROJECTS | grep $3)" ]
+      then
+        STAGES=$(ls $GENKA_ROOT/resources/stages)
+        COMPREPLY=( `compgen -W "$STAGES" $2` )
+      fi
       ;;
   esac
 }
