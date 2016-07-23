@@ -3,6 +3,7 @@
 set -eu
 
 CONFIG_PATH=$GENKA_ROOT/config
+API_URL=$(cat $CONFIG_PATH/api.url)
 
 api_url() {
   echo "api.url=$1"
@@ -10,7 +11,7 @@ api_url() {
 }
 
 my_name() {
-  MEMBER=$(http post localhost:3000/members name=$1)
+  MEMBER=$(http get $API_URL/members?name=$1)
   NAME=$(echo $MEMBER | jq -r .name)
   echo "Hello, $NAME!"
   echo $MEMBER | jq -r .id > $CONFIG_PATH/myname.id
