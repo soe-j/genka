@@ -22,7 +22,6 @@ load_resources() {
 
 }
 
-RESOURCES_PATH=$GENKA_ROOT/resources
 rm -rf  $RESOURCES_PATH/*
 
 load_resources projects
