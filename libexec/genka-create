@@ -14,6 +14,7 @@ case $1 in
     if [ -n "$2" ]
     then
       create $1 $2
+      genka load
     else
       echo "genka create [project|stage|member] name"
       exit 2
