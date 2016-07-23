@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -eu
+
+CONFIG_PATH=$GENKA_ROOT/config
+API_URL=$( cat $CONFIG_PATH/api.url )
+MEMBER_ID=$(cat $CONFIG_PATH/myname.id)
+RESOURCES_PATH=$GENKA_ROOT/resources
+
+record(){
+  PROJECT_ID=$(cat $RESOURCES_PATH/projects/$1)
+  STAGES_ID=$(cat $RESOURCES_PATH/stages/$2)
+
+  http post $API_URL/periods project_id=$PROJECT_ID stage_id=$STAGES_ID member_id=$MEMBER_ID | jq .
+}
+
+if [ $# > 2 ]
+then
+  record $@
+fi
