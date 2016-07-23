@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -eu
+
 CONFIG_PATH=$GENKA_ROOT/config
 
 api_url() {

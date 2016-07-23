@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-set -e
+set -eu
+
+CONFIG_PATH=$GENKA_ROOT/config
+API_URL=$( cat $CONFIG_PATH/api.url )
+RESOURCES_PATH=$GENKA_ROOT/resources
 
 load_resources() {
 

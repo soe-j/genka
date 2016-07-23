@@ -1,34 +1,18 @@
 #!/usr/bin/env bash
 
-set -e
-
-record(){
-  PROJECT_ID=$(cat $RESOURCES_PATH/projects/$1)
-  STAGES_ID=$(cat $RESOURCES_PATH/stages/$2)
-  MEMBER_ID=$(cat $CONFIG_PATH/myname.id)
-
-  http post $API_URL/periods project_id=$PROJECT_ID stage_id=$STAGES_ID member_id=$MEMBER_ID | jq .
-}
+set -eu
 
 case $1 in
   init )
     GENKA_ROOT=$(dirname $0)/..
     . $GENKA_ROOT/libexec/genka-init
     ;;
-  config | create | init | load )
+  config | create | load )
     LIBEXEC_PATH=$GENKA_ROOT/libexec
-    CONFIG_PATH=$GENKA_ROOT/config
-    RESOURCES_PATH=$GENKA_ROOT/resources
-    API_URL=$( cat $GENKA_ROOT/config/api.url )
-    . $LIBEXEC_PATH/genka-$1 $2 $3
+    . $LIBEXEC_PATH/genka-$@
     ;;
   * )
-    if [ $# == 2 ]
-    then
-      record $1 $2
-    else
-      echo "usage: genka [project] [stage]"
-      exit 1
-    fi
+    LIBEXEC_PATH=$GENKA_ROOT/libexec
+    . $LIBEXEC_PATH/genka-record $1 $2
     ;;
 esac
