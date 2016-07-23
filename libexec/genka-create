@@ -4,9 +4,19 @@ set -eu
 
 CONFIG_PATH=$GENKA_ROOT/config
 API_URL=$( cat $CONFIG_PATH/api.url )
+RESOURCES_PATH=$GENKA_ROOT/resources
 
 create () {
-  http post $API_URL/$1s/ name=$2 | jq .
+  RESULT=$(http post $API_URL/$1s/ name=$2 | jq .)
+  if $(echo $RESULT | jq 'has("id")')
+  then
+    ID=$(echo $RESULT | jq -r .id)
+    NAME=$(echo $RESULT | jq -r .name)
+    echo $ID > $RESOURCES_PATH/$1s/$NAME
+    echo created: $RESULT
+  else
+    echo error: $RESULT
+  fi
 }
 
 case $1 in
@@ -14,7 +24,6 @@ case $1 in
     if [ -n "$2" ]
     then
       create $1 $2
-      genka load
     else
       echo "genka create [project|stage|member] name"
       exit 2
