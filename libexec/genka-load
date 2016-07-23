@@ -12,14 +12,25 @@ load_resources() {
   RESOURCES=$(http get $API_URL/$1)
   COUNT=$(echo $RESOURCES | jq .[].name | wc -l)
 
-  for i in `seq 0 $(expr $COUNT - 1)`
-  do
-    ID=$(echo $RESOURCES | jq -r .[$i].id)
-    NAME=$(echo $RESOURCES | jq -r .[$i].name)
+  echo "$1:"
 
-    echo $ID > $RESOURCES_PATH/$1/$NAME
-  done
+  if [ $COUNT == 0 ]
+  then
+    echo "(none)"
 
+  else
+    for i in `seq 0 $(expr $COUNT - 1)`
+    do
+      ID=$(echo $RESOURCES | jq -r .[$i].id)
+      NAME=$(echo $RESOURCES | jq -r .[$i].name)
+
+      echo $ID > $RESOURCES_PATH/$1/$NAME
+    done
+
+    echo "$(ls $RESOURCES_PATH/$1)"
+  fi
+
+  echo ""
 }
 
 rm -rf  $RESOURCES_PATH/*
