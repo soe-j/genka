@@ -6,7 +6,7 @@ CONFIG_PATH=$GENKA_ROOT/config
 API_URL=$( cat $CONFIG_PATH/api.url )
 
 create () {
-  http post $API_URL/$1s/ name=$2
+  http post $API_URL/$1s/ name=$2 | jq .
 }
 
 case $1 in
