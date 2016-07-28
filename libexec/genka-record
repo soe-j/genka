@@ -11,7 +11,21 @@ record(){
   PROJECT_ID=$(cat $RESOURCES_PATH/projects/$1)
   STAGES_ID=$(cat $RESOURCES_PATH/stages/$2)
 
-  http post $API_URL/periods project_id=$PROJECT_ID stage_id=$STAGES_ID member_id=$MEMBER_ID | jq .
+  case $# in
+    2 )
+      http post $API_URL/periods project_id=$PROJECT_ID stage_id=$STAGES_ID member_id=$MEMBER_ID | jq .
+      ;;
+    3 )
+      START_DATE=$(date +%Y%m%d)
+      START_TIME=$3
+      http post $API_URL/periods project_id=$PROJECT_ID stage_id=$STAGES_ID member_id=$MEMBER_ID start_at=$START_DATE$START_TIME | jq .
+      ;;
+    4 )
+      START_DATE=$3
+      START_TIME=$4
+      http post $API_URL/periods project_id=$PROJECT_ID stage_id=$STAGES_ID member_id=$MEMBER_ID start_at=$START_DATE$START_TIME | jq .
+    ;;
+  esac
 }
 
 if [ $# > 2 ]
