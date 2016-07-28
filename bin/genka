@@ -13,6 +13,6 @@ case $1 in
     ;;
   * )
     LIBEXEC_PATH=$GENKA_ROOT/libexec
-    . $LIBEXEC_PATH/genka-record $1 $2
+    . $LIBEXEC_PATH/genka-record $@
     ;;
 esac
