@@ -1,5 +1,6 @@
 <html>
   <head>
+    <script type="text/javascript" src="javascripts/jquery-2.2.3.min.js"></script>
     <script>
       function appendResults(text) {
         var results = document.getElementById('results');
@@ -19,7 +20,7 @@
       }
 
       function init() {
-        gapi.client.setApiKey('YOUR API KEY');
+        gapi.client.setApiKey('38696ada7aa4b38b003e106b2ed6f20a6dbe1b9c');
         gapi.client.load('urlshortener', 'v1').then(makeRequest);
       }
     </script>
